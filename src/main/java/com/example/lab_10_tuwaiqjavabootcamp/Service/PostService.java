@@ -55,4 +55,19 @@ public class PostService {
         return true;
     }
 
+    // 1
+    public List<Post> getPostsByUserId(Integer user_id){
+        return postRepository.getPostByUser_id(user_id);
+    }
+
+    // 2
+    public Post getByTitle(String title){
+        return postRepository.findPostByTitle(title);
+    }
+
+    // 4
+    public List<Post> getBeforeDate(LocalDate date){
+        return postRepository.getPostByPublish_dateBefore(date);
+    }
+
 }

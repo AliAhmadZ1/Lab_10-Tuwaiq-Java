@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/api/v1/post")
 @RequiredArgsConstructor
@@ -49,6 +51,24 @@ public class PostController {
         if (isDeleted)
             return ResponseEntity.status(200).body(new ApiResponse("post is deleted"));
         return ResponseEntity.status(400).body(new ApiResponse("not found"));
+    }
+
+    // endpoint 1
+    @GetMapping("/get-by-user/{id}")
+    public ResponseEntity getByUser(@PathVariable Integer id){
+        return ResponseEntity.status(200).body(postService.getPostsByUserId(id));
+    }
+
+    // endpoint 2
+    @GetMapping("/get-by-title/{title}")
+    public ResponseEntity getByTitle(@PathVariable String title){
+        return ResponseEntity.status(200).body(postService.getByTitle(title));
+    }
+
+    //endpoint 4
+    @GetMapping("/get-before-date/{date}")
+    public ResponseEntity getBeforeDate(@PathVariable LocalDate date){
+        return ResponseEntity.status(200).body(postService.getBeforeDate(date));
     }
 
 }
