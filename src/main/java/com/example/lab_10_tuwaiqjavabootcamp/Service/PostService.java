@@ -70,4 +70,14 @@ public class PostService {
         return postRepository.getPostByPublish_dateBefore(date);
     }
 
+    // 7
+    public Boolean editTitle(Integer user_id, Integer post_id, String title){
+        Post post = postRepository.checkUserRelated(user_id, post_id);
+        if (post==null)
+            return false;
+        post.setTitle(title);
+        postRepository.save(post);
+        return true;
+    }
+
 }

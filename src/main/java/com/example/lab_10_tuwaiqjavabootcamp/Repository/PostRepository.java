@@ -23,4 +23,7 @@ public interface PostRepository extends JpaRepository<Post,Integer> {
     @Query("select p from Post p where p.publish_date>=?1")
     List<Post> getPostByPublish_dateBefore(LocalDate date);
 
+    @Query("select p from Post p where p.user_id=?1 and p.id=?2")
+    Post checkUserRelated(Integer user_id,Integer post_id);
+
 }

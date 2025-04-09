@@ -19,14 +19,14 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/get")
-    public ResponseEntity getAllPosts(){
+    public ResponseEntity getAllPosts() {
         if (postService.getAllPosts().isEmpty())
             return ResponseEntity.status(400).body(new ApiResponse("there no posts"));
         return ResponseEntity.status(200).body(postService.getAllPosts());
     }
 
     @PostMapping("/add")
-    public ResponseEntity addPost(@RequestBody@Valid Post post, Errors errors){
+    public ResponseEntity addPost(@RequestBody @Valid Post post, Errors errors) {
         if (errors.hasErrors())
             return ResponseEntity.status(400).body(new ApiResponse(errors.getFieldError().getDefaultMessage()));
         boolean isAdded = postService.addPost(post);
@@ -36,7 +36,7 @@ public class PostController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity updatePost(@PathVariable Integer id,@RequestBody@Valid Post post, Errors errors){
+    public ResponseEntity updatePost(@PathVariable Integer id, @RequestBody @Valid Post post, Errors errors) {
         if (errors.hasErrors())
             return ResponseEntity.status(400).body(new ApiResponse(errors.getFieldError().getDefaultMessage()));
         boolean isUpdated = postService.updatePost(id, post);
@@ -46,7 +46,7 @@ public class PostController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity deletePost(@PathVariable Integer id){
+    public ResponseEntity deletePost(@PathVariable Integer id) {
         boolean isDeleted = postService.deletePost(id);
         if (isDeleted)
             return ResponseEntity.status(200).body(new ApiResponse("post is deleted"));
@@ -55,20 +55,33 @@ public class PostController {
 
     // endpoint 1
     @GetMapping("/get-by-user/{id}")
-    public ResponseEntity getByUser(@PathVariable Integer id){
+    public ResponseEntity getByUser(@PathVariable Integer id) {
         return ResponseEntity.status(200).body(postService.getPostsByUserId(id));
     }
 
     // endpoint 2
     @GetMapping("/get-by-title/{title}")
-    public ResponseEntity getByTitle(@PathVariable String title){
+    public ResponseEntity getByTitle(@PathVariable String title) {
+        if (postService.getByTitle(title) == null)
+            return ResponseEntity.status(400).body(new ApiResponse("There are no post with " + title + " title"));
         return ResponseEntity.status(200).body(postService.getByTitle(title));
     }
 
     //endpoint 4
     @GetMapping("/get-before-date/{date}")
-    public ResponseEntity getBeforeDate(@PathVariable LocalDate date){
+    public ResponseEntity getBeforeDate(@PathVariable LocalDate date) {
         return ResponseEntity.status(200).body(postService.getBeforeDate(date));
+    }
+
+    // endpoint 7
+    @PutMapping("/edit-title/{user_id},{post_id},{title}")
+    public ResponseEntity editTitle(@PathVariable Integer user_id, @PathVariable Integer post_id, @Valid String title, Errors errors) {
+        if (errors.hasErrors())
+            return ResponseEntity.status(400).body(errors.getFieldError().getDefaultMessage());
+        boolean isEdited = postService.editTitle(user_id, post_id, title);
+        if (isEdited)
+            return ResponseEntity.status(200).body(new ApiResponse("Title is updated"));
+        return ResponseEntity.status(400).body(new ApiResponse("user or post not found or not related"));
     }
 
 }
