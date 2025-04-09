@@ -51,4 +51,12 @@ public class CategoryController {
         return ResponseEntity.status(400).body(new ApiResponse("not found"));
     }
 
+    // endpoint 8
+    @GetMapping("/get-posts/{user_id},{category}")
+    public ResponseEntity getAllPosts(@PathVariable Integer user_id,@PathVariable String category){
+        if (categoryService.getAllPosts(user_id, category).isEmpty())
+            return ResponseEntity.status(400).body(new ApiResponse("there any posts for the user in this category or not exist"));
+        return ResponseEntity.status(200).body(categoryService.getAllPosts(user_id, category));
+    }
+
 }

@@ -72,12 +72,16 @@ public class PostService {
 
     // 7
     public Boolean editTitle(Integer user_id, Integer post_id, String title){
-        Post post = postRepository.checkUserRelated(user_id, post_id);
-        if (post==null)
+        Post post = postRepository.findPostById(post_id);
+        User user = userRepository.findUserById(user_id);
+        if (post==null||user ==null)
             return false;
-        post.setTitle(title);
-        postRepository.save(post);
-        return true;
+        if (post.getUser_id()==user.getId()) {
+            post.setTitle(title);
+            postRepository.save(post);
+            return true;
+        }
+        return false;
     }
 
 }

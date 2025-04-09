@@ -2,12 +2,15 @@ package com.example.lab_10_tuwaiqjavabootcamp.Service;
 
 import com.example.lab_10_tuwaiqjavabootcamp.ApiResponse.ApiResponse;
 import com.example.lab_10_tuwaiqjavabootcamp.Model.Category;
+import com.example.lab_10_tuwaiqjavabootcamp.Model.Post;
 import com.example.lab_10_tuwaiqjavabootcamp.Repository.CategoryRepository;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -46,6 +49,21 @@ public class CategoryService {
             return false;
         categoryRepository.delete(category);
         return true;
+    }
+
+    // 8
+    public List<Post> getAllPosts(Integer user_id,String category){
+        List<Post> posts = categoryRepository.getAllPostsByUserAndCategory(user_id);
+        List<Post> filteredPosts = new ArrayList<>();
+        for (Category c: getAllCategories()){
+            if (c.getName().equals(category)){
+                for (Post p: posts){
+                    if (p.getCategory_id()==c.getId())
+                        filteredPosts.add(p);
+                }
+            }
+        }
+        return filteredPosts;
     }
 
 }

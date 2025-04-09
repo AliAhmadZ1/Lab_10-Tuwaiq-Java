@@ -75,9 +75,7 @@ public class PostController {
 
     // endpoint 7
     @PutMapping("/edit-title/{user_id},{post_id},{title}")
-    public ResponseEntity editTitle(@PathVariable Integer user_id, @PathVariable Integer post_id, @Valid String title, Errors errors) {
-        if (errors.hasErrors())
-            return ResponseEntity.status(400).body(errors.getFieldError().getDefaultMessage());
+    public ResponseEntity editTitle(@PathVariable Integer user_id, @PathVariable Integer post_id, String title) {
         boolean isEdited = postService.editTitle(user_id, post_id, title);
         if (isEdited)
             return ResponseEntity.status(200).body(new ApiResponse("Title is updated"));
