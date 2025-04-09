@@ -5,9 +5,13 @@ import com.example.lab_10_tuwaiqjavabootcamp.Model.User;
 import com.example.lab_10_tuwaiqjavabootcamp.Service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.internal.util.privilegedactions.LoadClass;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -55,6 +59,12 @@ public class UserController {
         if (userService.deleteUser(user_id))
             return ResponseEntity.status(200).body(new ApiResponse("user is deleted"));
         return ResponseEntity.status(400).body(new ApiResponse("not found?!?!"));
+    }
+
+    // endpoint 5
+    @GetMapping("/get-date-range/{fDate},{lDate}")
+    public ResponseEntity getByRange(@PathVariable LocalDate fDate, @PathVariable LocalDate lDate){
+        return ResponseEntity.status(200).body(userService.getUserByRangeDate(fDate, lDate));
     }
 
 }

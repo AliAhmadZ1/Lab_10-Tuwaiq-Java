@@ -64,4 +64,9 @@ public class UserService {
         return true;
     }
 
+    // 5
+    public List<User> getUserByRangeDate(LocalDate fDate,LocalDate lDate){
+        return userRepository.getUserByRegistration_datePeriod(fDate, lDate);
+    }
+
 }
