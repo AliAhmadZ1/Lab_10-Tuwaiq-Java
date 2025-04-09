@@ -69,4 +69,9 @@ public class UserService {
         return userRepository.getUserByRegistration_datePeriod(fDate, lDate);
     }
 
+    // 6
+    public List<User> getBySpecificDomain(String domain){
+        return userRepository.getByEmailInSpecificDomain(domain);
+    }
+
 }

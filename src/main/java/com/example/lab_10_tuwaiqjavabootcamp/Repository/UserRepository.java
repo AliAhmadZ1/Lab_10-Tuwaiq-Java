@@ -19,4 +19,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("select u from User u where u.registration_date>=?1 and u.registration_date<=?2")
     List<User> getUserByRegistration_datePeriod(LocalDate fDate, LocalDate lDate);
+
+    @Query("select u from User u where u.email like '%?1%'")
+    List<User> getByEmailInSpecificDomain(String domain);
 }

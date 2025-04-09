@@ -67,4 +67,10 @@ public class UserController {
         return ResponseEntity.status(200).body(userService.getUserByRangeDate(fDate, lDate));
     }
 
+    // endpoint 6
+    @GetMapping("/get-domain/{domain}")
+    public ResponseEntity getByDomain(@PathVariable String domain){
+        return ResponseEntity.status(200).body(userService.getBySpecificDomain(domain));
+    }
+
 }
